@@ -1,0 +1,7 @@
+[
+  {"checked": false, "description": "einkaufen", "id": 1},
+  {"checked": false, "description": "rechnungen zahlen", "id": 2},
+  {"checked": false, "description": "Konzert Tickets bestellen", "id": 3},
+  {"checked": false, "description": "Staubsaugen", "id": 4},
+  {"checked": false, "description": "Kinder abholen gehen", "id": 5}
+]

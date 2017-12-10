@@ -3,6 +3,7 @@ import { TodoItem } from '../common';
 import { Component, Inject, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
+import { TodoService } from './services';
 import { MdSnackBar } from '@angular/material';
 
 @Component({
@@ -13,18 +14,17 @@ export class TodoComponent implements OnInit, OnDestroy {
     private todos: TodoItem[];
     private orig: TodoItem[];
 
-    @ViewChild('description') private descriptionInput: ElementRef;
+    //@ViewChild('description') private descriptionInput: ElementRef;
 
-    constructor(private http: Http, private snackBar: MdSnackBar) {
+    constructor(private todoService: TodoService, private snackBar: MdSnackBar) {
 
     }
 
     public ngOnInit() {
-        this.http.get('assets/mock-data/todos.json')
-            .map((result) => result.json())
-            .subscribe((result) => {
-                this.orig = result;
-                this.todos = cloneArray(result);
+            this.todoService.load()
+                .subscribe((result) => {
+                    this.orig = result;
+                    this.todos = cloneArray(result);
             });
     }
 
@@ -32,20 +32,28 @@ export class TodoComponent implements OnInit, OnDestroy {
 
     }
 
-    public onAdd(newItemDescription: string) {
+    public onAdd(newItem: TodoItem): void {
+      newItem.lastModified = new Date();
+      this.todos.push(newItem);
+      this.snackBar.open('add item', null, {duration: 1500});
+
+
+    }
+  /*  public onAdd(newItemDescription: string) {
         const newItem = { description: newItemDescription, checked: false, lastModified: new Date(), id: 0 };
         this.descriptionInput.nativeElement.value = '';
         this.snackBar.open(`Item with description "${newItemDescription} added`, null, { duration: 1500 });
         this.todos.push(newItem);
         this.snackBar.open('add item', null, { duration: 1500 });
 
-    }
+    }*/
 
     public onReset(): void {
         this.todos = cloneArray(this.orig);
         this.snackBar.open('reset todos', null, { duration: 1500 });
     }
 
+    /*
     public get itemsOpen(): TodoItem[] {
         return this.filterCheckedBy(false);
     }
@@ -66,5 +74,5 @@ export class TodoComponent implements OnInit, OnDestroy {
         }
 
         return undefined;
-    }
+    }*/
 }

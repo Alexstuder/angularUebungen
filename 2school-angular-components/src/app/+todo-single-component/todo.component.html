@@ -1,7 +1,16 @@
 <div class="content">
     <h1>Todo example</h1>
     <h2>MVC architecture</h2>
-    
+
+
+    <div class="card-row">
+      <todo-add (add)="onAdd($event)"></todo-add>
+    </div>
+
+    <todo-list [items]="todos" (reset)="onReset()">
+    </todo-list>
+
+    <!--
     <md-card class="add-item">
         <md-card-header>
             <md-card-title>Add a new Item</md-card-title>
@@ -47,5 +56,5 @@
                 <button md-button (click)=onReset()>Reset</button>
             </md-card-actions>
         </md-card>
-    </div>
+    </div> -->
 </div>
